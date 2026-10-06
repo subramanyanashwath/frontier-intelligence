@@ -3,12 +3,12 @@ import { expect, test } from "@playwright/test";
 test("operator routes render the observatory", async ({ page }) => {
   await page.goto("/operator");
   await expect(page.getByText("FRONTIER OPERATOR")).toBeVisible();
-  await expect(page.getByText("DEMO SEED")).toBeVisible();
+  await expect(page.getByText("DEMO SEED", { exact: true })).toBeVisible();
   await expect(page.getByRole("heading", { name: /EVALS|REGIME|ACCELERATING|DOMINATES/ })).toBeVisible();
 
   await page.goto("/operator/tape");
   await expect(page.getByRole("heading", { name: "Event stream" })).toBeVisible();
-  await expect(page.getByText("NEW_JOB").first()).toBeVisible();
+  await expect(page.locator("td").filter({ hasText: "NEW_JOB" }).first()).toBeVisible();
 
   await page.goto("/operator/surface");
   await expect(page.getByRole("heading", { name: "Market surface" })).toBeVisible();
