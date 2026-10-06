@@ -1,0 +1,36 @@
+name: Weekly ingest
+
+on:
+  schedule:
+    - cron: "0 9 * * 1"
+  workflow_dispatch:
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Check migrations
+        run: pnpm db:migrate
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      - name: Ingest public Microsoft Careers postings
+        run: pnpm ingest:jobs
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          INGEST_QUERY: artificial intelligence
+          INGEST_MAX_PAGES: "3"
+          INGEST_DELAY_MS: "1200"
+          INGEST_DETAIL_LIMIT: "20"
+      - name: Rebuild metrics
+        run: pnpm metrics:rebuild
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}

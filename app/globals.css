@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  background:
+    radial-gradient(1200px 400px at 10% -10%, rgba(224, 177, 90, 0.05), transparent 50%),
+    #0b0d10;
+  min-height: 100vh;
+}
+
+::selection {
+  background: #3d3422;
+  color: #f3efe4;
+}
+
+input,
+select,
+button,
+textarea {
+  font: inherit;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+.panel {
+  background: #12171d;
+  border: 1px solid #2a3544;
+}
+
+.kicker {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #8493a5;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 1px solid #e0b15a;
+  outline-offset: 2px;
+}
